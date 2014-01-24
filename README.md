@@ -16,6 +16,7 @@ More Information
 * [JBehave Grammar](http://jbehave.org/reference/stable/grammar.html)
 * [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin); [Behat Gherkin](http://docs.behat.org/guides/1.gherkin.html)
 * [Gherkin Parser](https://github.com/cucumber/gherkin)
+* [JBehave Examples](http://git.codehaus.org/gitweb.cgi?p=jbehave-core.git;a=tree;f=examples/core/src/main/java/org/jbehave/examples/core/stories)
 
 Backlog
 -------
