@@ -1,7 +1,7 @@
 JBehave to Gherkin
 ==================
 
-Converts JBehave Story Files to Gherkin Features
+Converts JBehave grammar to Gherkin
 
 Usage
 -----
@@ -9,6 +9,12 @@ Usage
 ```shell
 $ java -jar jbehave-to-gherkin.jar < example.story > example.feature
 ```
+
+More Information
+----------------
+
+* [JBehave Grammar](http://jbehave.org/reference/stable/grammar.html)
+* [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin)
 
 Backlog
 -------
