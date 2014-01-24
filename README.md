@@ -1,7 +1,14 @@
-jbehave-to-gherkin
+JBehave to Gherkin
 ==================
 
 Converts JBehave Story Files to Gherkin Features
+
+Usage
+-----
+
+```shell
+$ java -jar jbehave-to-gherkin.jar < example.story > example.feature
+```
 
 Backlog
 -------
