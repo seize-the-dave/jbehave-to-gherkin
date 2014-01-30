@@ -1,5 +1,9 @@
 package uk.co.adaptivelogic.jbehavetogherkin;
 
+import org.jbehave.core.model.Scenario;
+import org.jbehave.core.model.Story;
+import org.jbehave.core.parsers.RegexStoryParser;
+
 import java.io.*;
 import java.nio.charset.Charset;
 
@@ -12,7 +16,7 @@ public class Main {
     }
 
     private static void translate(InputStreamReader jBehaveIn, OutputStreamWriter gherkinOut) {
-        String jbehave = readJBehave(jBehaveIn);
+        Story jbehave = readJBehave(jBehaveIn);
         String gherkin = translate(jbehave);
         writeGherkin(gherkinOut, gherkin);
     }
@@ -26,17 +30,16 @@ public class Main {
         }
     }
 
-    private static String translate(String jbehave) {
-        String gherkin;
-        if (jbehave.isEmpty()) {
-            gherkin = "";
-        } else {
-            gherkin = "Feature: Example";
+    private static String translate(Story story) {
+        for (Scenario scenario : story.getScenarios()) {
+            for (String step : scenario.getSteps()) {
+                return step;
+            }
         }
-        return gherkin;
+        return "";
     }
 
-    private static String readJBehave(InputStreamReader jBehaveIn) {
+    private static Story readJBehave(InputStreamReader jBehaveIn) {
         BufferedReader bufferedReader = new BufferedReader(jBehaveIn);
         StringBuilder jbehaveBuilder = new StringBuilder();
         try {
@@ -47,6 +50,7 @@ public class Main {
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-        return jbehaveBuilder.toString();
+        RegexStoryParser storyParser = new RegexStoryParser();
+        return storyParser.parseStory(jbehaveBuilder.toString());
     }
 }

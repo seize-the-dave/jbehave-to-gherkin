@@ -24,16 +24,15 @@ public class MainIT {
     }
 
     @Test
-    public void shouldOutputFeatureForNarrativeInput() {
-        String jbehave = "Narrative: Example";
+    public void shouldOutputGivenForGivenStepInput() {
+        String jbehave = "Given I am a step";
         System.setIn(new ByteArrayInputStream(jbehave.getBytes(Charset.defaultCharset())));
         ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(gherkinByteStream));
 
-
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, is("Feature: Example"));
+        assertThat(gherkin, is("Given I am a step"));
     }
 }
