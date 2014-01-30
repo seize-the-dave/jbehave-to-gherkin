@@ -12,6 +12,8 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 
 public class MainIT {
+    private static final String INDENT = "    ";
+
     @Test
     public void shouldOutputNothingForEmptyInput() {
         System.setIn(new ByteArrayInputStream(new byte[]{}));
@@ -34,7 +36,7 @@ public class MainIT {
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, equalTo("Given I am a step"));
+        assertThat(gherkin, equalTo(INDENT + "Given I am a step" + System.lineSeparator()));
     }
 
     @Test
@@ -47,6 +49,6 @@ public class MainIT {
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, equalTo("Given I am a step" + System.lineSeparator() + "When I am another step"));
+        assertThat(gherkin, equalTo(INDENT + "Given I am a step" + System.lineSeparator() + INDENT + "When I am another step" + System.lineSeparator()));
     }
 }

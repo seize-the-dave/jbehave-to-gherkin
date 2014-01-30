@@ -1,11 +1,18 @@
 package uk.co.adaptivelogic.jbehavetogherkin;
 
+import gherkin.formatter.Formatter;
+import gherkin.formatter.PrettyFormatter;
+import gherkin.formatter.model.Step;
 import org.jbehave.core.model.Scenario;
 import org.jbehave.core.model.Story;
 import org.jbehave.core.parsers.RegexStoryParser;
 
+import static java.util.Collections.*;
+
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,28 +24,32 @@ public class Main {
 
     private static void translate(InputStreamReader jBehaveIn, OutputStreamWriter gherkinOut) {
         Story jbehave = readJBehave(jBehaveIn);
-        String gherkin = translate(jbehave);
+        List<Step> gherkin = translate(jbehave);
         writeGherkin(gherkinOut, gherkin);
     }
 
-    private static void writeGherkin(OutputStreamWriter gherkinOut, String gherkin) {
-        try {
-            gherkinOut.write(gherkin);
-            gherkinOut.close();
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
+    private static void writeGherkin(OutputStreamWriter gherkinOut, List<Step> gherkin) {
+        Formatter formatter = new PrettyFormatter(gherkinOut, true, false);
+        for (Step step : gherkin) {
+            formatter.step(step);
         }
+        formatter.eof();
+        formatter.close();
     }
 
-    private static String translate(Story story) {
-        StringBuilder builder = new StringBuilder();
+    private static List<Step> translate(Story story) {
+        List<Step> steps = new ArrayList<Step>();
         for (Scenario scenario : story.getScenarios()) {
             for (String step : scenario.getSteps()) {
-                builder.append(step);
-                builder.append(System.lineSeparator());
+                Step gherkinStep = translateStep(step);
+                steps.add(gherkinStep);
             }
         }
-        return builder.toString().trim();
+        return steps;
+    }
+
+    private static Step translateStep(String step) {
+        return new Step(EMPTY_LIST, "", step, 1, EMPTY_LIST, null);
     }
 
     private static Story readJBehave(InputStreamReader jBehaveIn) {
