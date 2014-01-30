@@ -35,9 +35,10 @@ public class Main {
         for (Scenario scenario : story.getScenarios()) {
             for (String step : scenario.getSteps()) {
                 builder.append(step);
+                builder.append(System.lineSeparator());
             }
         }
-        return builder.toString();
+        return builder.toString().trim();
     }
 
     private static Story readJBehave(InputStreamReader jBehaveIn) {
@@ -47,6 +48,7 @@ public class Main {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 jbehaveBuilder.append(line);
+                jbehaveBuilder.append(System.lineSeparator());
             }
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
