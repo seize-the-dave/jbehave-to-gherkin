@@ -1,7 +1,7 @@
 JBehave to Gherkin
 ==================
 
-Converts JBehave grammar to Gherkin
+Converts JBehave grammar to Gherkin for use by Cucumber, SpecFlow or Behat.
 
 Usage
 -----
