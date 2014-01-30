@@ -31,12 +31,13 @@ public class Main {
     }
 
     private static String translate(Story story) {
+        StringBuilder builder = new StringBuilder();
         for (Scenario scenario : story.getScenarios()) {
             for (String step : scenario.getSteps()) {
-                return step;
+                builder.append(step);
             }
         }
-        return "";
+        return builder.toString();
     }
 
     private static Story readJBehave(InputStreamReader jBehaveIn) {
