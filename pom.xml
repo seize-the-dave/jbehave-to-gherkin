@@ -12,7 +12,7 @@
         </dependency>
         <dependency>
             <groupId>org.jbehave</groupId>
-            <artifactId>jbehave</artifactId>
+            <artifactId>jbehave-core</artifactId>
             <version>3.9</version>
         </dependency>
         <dependency>
