@@ -7,3 +7,12 @@ Feature: Gherkin feature description
     Given I have some JBehave stories
     When I execute jbehave-to-gherkin
     Then I should have Gherkin features
+
+  Scenario Outline: Second scenario
+    Given a [precondition] has occurred
+    When an action is performed
+    Then a [postcondition] should occur
+
+    Examples: 
+      | precondition | postcondition |
+      | foo          | bar           |

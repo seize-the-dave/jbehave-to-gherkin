@@ -1,15 +1,16 @@
 package uk.co.adaptivelogic.jbehavetogherkin;
 
-import gherkin.formatter.model.Feature;
-import gherkin.formatter.model.Step;
+import gherkin.formatter.model.*;
 import org.apache.commons.lang.StringUtils;
+import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.model.Scenario;
 import org.jbehave.core.model.Story;
 
-import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Translator {
     public List<ScenarioWrapper> translateScenarios(List<Scenario> scenarios) {
@@ -22,9 +23,35 @@ public class Translator {
 
     private ScenarioWrapper translate(Scenario scenario) {
         ScenarioWrapper scenarioWrapper = new ScenarioWrapper();
-        scenarioWrapper.setScenario(new gherkin.formatter.model.Scenario(EMPTY_LIST, EMPTY_LIST, "Scenario", scenario.getTitle(), "", 2, null));
+        if (scenario.getExamplesTable().getHeaders().isEmpty()) {
+            scenarioWrapper.setScenario(new gherkin.formatter.model.Scenario(noComments(), noTags(), "Scenario", scenario.getTitle(), "", 2, null));
+        } else {
+            scenarioWrapper.setScenarioOutline(new ScenarioOutline(noComments(), noTags(), "Scenario Outline", scenario.getTitle(), "", 2, null));
+            scenarioWrapper.setExamples(translate(scenario.getExamplesTable()));
+        }
         scenarioWrapper.setSteps(translateSteps(scenario.getSteps()));
         return scenarioWrapper;
+    }
+
+    private List<Tag> noTags() {
+        return emptyList();
+    }
+
+    private List<Comment> noComments() {
+        return emptyList();
+    }
+
+    private Examples translate(ExamplesTable examples) {
+        List<ExamplesTableRow> rows = new ArrayList<ExamplesTableRow>();
+        rows.add(new ExamplesTableRow(noComments(), examples.getHeaders(), 0, ""));
+        for (Map<String, String> row : examples.getRows()) {
+            List<String> jBehaveRow = new ArrayList<String>();
+            for (String header : examples.getHeaders()) {
+                jBehaveRow.add(row.get(header));
+            }
+            rows.add(new ExamplesTableRow(noComments(), jBehaveRow, 0, ""));
+        }
+        return new Examples(noComments(), noTags(), "Examples", "", "", 1, "", rows);
     }
 
     private List<Step> translateSteps(List<String> jBehaveSteps) {
@@ -58,7 +85,7 @@ public class Translator {
                 description.append("So that ");
                 description.append(story.getNarrative().soThat());
             }
-            Feature feature = new Feature(EMPTY_LIST, EMPTY_LIST, "Feature", story.getDescription().asString(), description.toString(), 1, "");
+            Feature feature = new Feature(noComments(), noTags(), "Feature", story.getDescription().asString(), description.toString(), 1, "");
             featureWrapper.setFeature(feature);
         }
 
@@ -69,6 +96,10 @@ public class Translator {
 
     public Step translate(String step) {
         String[] stepParts = StringUtils.split(step, " ", 2);
-        return new Step(EMPTY_LIST, stepParts[0], " " + stepParts[1], 1, EMPTY_LIST, null);
+        return new Step(noComments(), stepParts[0], " " + stepParts[1], 1, noTableData(), null);
+    }
+
+    private List<DataTableRow> noTableData() {
+        return emptyList();
     }
 }
