@@ -22,7 +22,7 @@ public class Translator {
 
     private ScenarioWrapper translate(Scenario scenario) {
         ScenarioWrapper scenarioWrapper = new ScenarioWrapper();
-        scenarioWrapper.setScenario(new gherkin.formatter.model.Scenario(EMPTY_LIST, EMPTY_LIST, "Scenario", "", "", 2, null));
+        scenarioWrapper.setScenario(new gherkin.formatter.model.Scenario(EMPTY_LIST, EMPTY_LIST, "Scenario", scenario.getTitle(), "", 2, null));
         scenarioWrapper.setSteps(translateSteps(scenario.getSteps()));
         return scenarioWrapper;
     }
@@ -58,7 +58,7 @@ public class Translator {
                 description.append("So that ");
                 description.append(story.getNarrative().soThat());
             }
-            Feature feature = new Feature(EMPTY_LIST, EMPTY_LIST, "Feature", "", description.toString(), 1, "");
+            Feature feature = new Feature(EMPTY_LIST, EMPTY_LIST, "Feature", story.getDescription().asString(), description.toString(), 1, "");
             featureWrapper.setFeature(feature);
         }
 
