@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.nio.charset.Charset;
 
-public class MainIT {
+public class ConverterIT {
     private static final String INDENT = "    ";
 
     @Test
@@ -20,7 +20,7 @@ public class MainIT {
         ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(gherkinByteStream));
 
-        Main.main(new String[]{});
+        Converter.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
         assertThat(gherkin, is(""));
@@ -33,7 +33,7 @@ public class MainIT {
         ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(gherkinByteStream));
 
-        Main.main(new String[]{});
+        Converter.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
         assertThat(gherkin, equalTo("\n  Scenario: \n" +INDENT + "Given I am a step\n"));
@@ -46,7 +46,7 @@ public class MainIT {
         ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(gherkinByteStream));
 
-        Main.main(new String[]{});
+        Converter.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
         assertThat(gherkin, equalTo("\n  Scenario: \n" + INDENT + "Given I am a step\n" + INDENT + "When I am another step\n"));
@@ -58,7 +58,7 @@ public class MainIT {
         ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(gherkinByteStream));
 
-        Main.main(new String[]{});
+        Converter.main(new String[]{});
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
         assertThat(gherkin, equalTo(IOUtils.toString(getClass().getResourceAsStream("/narrative.feature"))));
     }
