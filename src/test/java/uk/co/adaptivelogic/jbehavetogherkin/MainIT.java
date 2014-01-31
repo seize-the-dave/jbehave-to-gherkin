@@ -36,7 +36,7 @@ public class MainIT {
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, equalTo(INDENT + "Given I am a step" + System.lineSeparator()));
+        assertThat(gherkin, equalTo(INDENT + "Given I am a step\n"));
     }
 
     @Test
@@ -49,6 +49,6 @@ public class MainIT {
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, equalTo(INDENT + "Given I am a step" + System.lineSeparator() + INDENT + "When I am another step" + System.lineSeparator()));
+        assertThat(gherkin, equalTo(INDENT + "Given I am a step\n" + INDENT + "When I am another step\n"));
     }
 }

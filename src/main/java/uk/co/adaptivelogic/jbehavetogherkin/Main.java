@@ -3,6 +3,7 @@ package uk.co.adaptivelogic.jbehavetogherkin;
 import gherkin.formatter.Formatter;
 import gherkin.formatter.PrettyFormatter;
 import gherkin.formatter.model.Step;
+import org.apache.commons.lang.StringUtils;
 import org.jbehave.core.model.Scenario;
 import org.jbehave.core.model.Story;
 import org.jbehave.core.parsers.RegexStoryParser;
@@ -50,7 +51,8 @@ public class Main {
     }
 
     private static Step translateStep(String step) {
-        return new Step(EMPTY_LIST, "", step, 1, EMPTY_LIST, null);
+        String[] stepParts = StringUtils.split(step, " ", 2);
+        return new Step(EMPTY_LIST, stepParts[0], " " + stepParts[1], 1, EMPTY_LIST, null);
     }
 
     private static Story readJBehave(InputStreamReader jBehaveIn) {
