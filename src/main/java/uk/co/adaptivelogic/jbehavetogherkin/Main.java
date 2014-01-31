@@ -6,6 +6,7 @@ import gherkin.formatter.model.Step;
 import org.jbehave.core.model.Scenario;
 import org.jbehave.core.model.Story;
 import org.jbehave.core.parsers.RegexStoryParser;
+import org.apache.commons.io.IOUtils;
 
 import static java.util.Collections.*;
 
@@ -53,18 +54,11 @@ public class Main {
     }
 
     private static Story readJBehave(InputStreamReader jBehaveIn) {
-        BufferedReader bufferedReader = new BufferedReader(jBehaveIn);
-        StringBuilder jbehaveBuilder = new StringBuilder();
         try {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                jbehaveBuilder.append(line);
-                jbehaveBuilder.append(System.lineSeparator());
-            }
+            RegexStoryParser storyParser = new RegexStoryParser();
+            return storyParser.parseStory(IOUtils.toString(jBehaveIn));
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-        RegexStoryParser storyParser = new RegexStoryParser();
-        return storyParser.parseStory(jbehaveBuilder.toString());
     }
 }
