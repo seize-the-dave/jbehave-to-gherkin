@@ -2,6 +2,7 @@ package uk.co.adaptivelogic.jbehavetogherkin;
 
 import gherkin.formatter.Formatter;
 import gherkin.formatter.PrettyFormatter;
+import gherkin.formatter.model.Feature;
 import gherkin.formatter.model.Step;
 import org.apache.commons.lang.StringUtils;
 import org.jbehave.core.model.Scenario;
@@ -26,28 +27,62 @@ public class Main {
 
     private static void translate(InputStreamReader jBehaveIn, OutputStreamWriter gherkinOut) {
         Story jbehave = readJBehave(jBehaveIn);
-        List<Step> gherkin = translate(jbehave);
+        FeatureWrapper gherkin = translate(jbehave);
         writeGherkin(gherkinOut, gherkin);
     }
 
-    private static void writeGherkin(OutputStreamWriter gherkinOut, List<Step> gherkin) {
+    private static void writeGherkin(OutputStreamWriter gherkinOut, FeatureWrapper gherkin) {
         Formatter formatter = new PrettyFormatter(gherkinOut, true, false);
-        for (Step step : gherkin) {
-            formatter.step(step);
-        }
+        gherkin.replay(formatter);
+
         formatter.eof();
         formatter.close();
     }
 
-    private static List<Step> translate(Story story) {
-        List<Step> steps = new ArrayList<Step>();
+    private static FeatureWrapper translate(Story story) {
+        FeatureWrapper featureWrapper = new FeatureWrapper();
+        if (!story.getNarrative().asA().isEmpty()) {
+            StringBuilder description = new StringBuilder();
+            if (!story.getNarrative().inOrderTo().isEmpty()) {
+                description.append("In order to ");
+                description.append(story.getNarrative().inOrderTo());
+                description.append('\n');
+                description.append("As a ");
+                description.append(story.getNarrative().asA());
+                description.append('\n');
+                description.append("I want to ");
+                description.append(story.getNarrative().iWantTo());
+            } else {
+                description.append("As a ");
+                description.append(story.getNarrative().asA());
+                description.append('\n');
+                description.append("I want to ");
+                description.append(story.getNarrative().iWantTo());
+                description.append('\n');
+                description.append("So that ");
+                description.append(story.getNarrative().soThat());
+            }
+            Feature feature = new Feature(EMPTY_LIST, EMPTY_LIST, "Feature", "", description.toString(), 1, "");
+            featureWrapper.setFeature(feature);
+        }
+
+        List<ScenarioWrapper> scenarioWrappers = new ArrayList<ScenarioWrapper>();
         for (Scenario scenario : story.getScenarios()) {
+            ScenarioWrapper scenarioWrapper = new ScenarioWrapper();
+            gherkin.formatter.model.Scenario gherkinScenario = new gherkin.formatter.model.Scenario(EMPTY_LIST, EMPTY_LIST, "Scenario", "", "", 2, null);
+            scenarioWrapper.setScenario(gherkinScenario);
+
+            List<Step> steps = new ArrayList<Step>();
             for (String step : scenario.getSteps()) {
                 Step gherkinStep = translateStep(step);
                 steps.add(gherkinStep);
             }
+            scenarioWrapper.setSteps(steps);
+            scenarioWrappers.add(scenarioWrapper);
         }
-        return steps;
+        featureWrapper.setScenarios(scenarioWrappers);
+
+        return featureWrapper;
     }
 
     private static Step translateStep(String step) {

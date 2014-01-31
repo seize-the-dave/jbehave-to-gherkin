@@ -6,9 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.charset.Charset;
 
 public class MainIT {
@@ -36,7 +34,7 @@ public class MainIT {
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, equalTo(INDENT + "Given I am a step\n"));
+        assertThat(gherkin, equalTo("\n  Scenario: \n" +INDENT + "Given I am a step\n"));
     }
 
     @Test
@@ -49,6 +47,19 @@ public class MainIT {
         Main.main(new String[]{});
 
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        assertThat(gherkin, equalTo(INDENT + "Given I am a step\n" + INDENT + "When I am another step\n"));
+        assertThat(gherkin, equalTo("\n  Scenario: \n" + INDENT + "Given I am a step\n" + INDENT + "When I am another step\n"));
+    }
+
+    @Test
+    public void shouldTranslateNarrativeToFeature() throws FileNotFoundException {
+        PrintStream save = System.out;
+        System.setIn(getClass().getResourceAsStream("/narrative.story"));
+        ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(gherkinByteStream));
+
+        Main.main(new String[]{});
+        String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
+        System.setOut(save);
+        System.out.println(gherkin);
     }
 }
