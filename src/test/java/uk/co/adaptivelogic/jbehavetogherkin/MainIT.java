@@ -2,6 +2,8 @@ package uk.co.adaptivelogic.jbehavetogherkin;
 
 import static org.hamcrest.core.Is.*;
 import static org.hamcrest.core.IsEqual.*;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -51,15 +53,13 @@ public class MainIT {
     }
 
     @Test
-    public void shouldTranslateNarrativeToFeature() throws FileNotFoundException {
-        PrintStream save = System.out;
+    public void shouldTranslateNarrativeToFeature() throws FileNotFoundException, IOException {
         System.setIn(getClass().getResourceAsStream("/narrative.story"));
         ByteArrayOutputStream gherkinByteStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(gherkinByteStream));
 
         Main.main(new String[]{});
         String gherkin = new String(gherkinByteStream.toByteArray(), Charset.defaultCharset());
-        System.setOut(save);
-        System.out.println(gherkin);
+        assertThat(gherkin, equalTo(IOUtils.toString(getClass().getResourceAsStream("/narrative.feature"))));
     }
 }
