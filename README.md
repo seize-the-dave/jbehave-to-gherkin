@@ -11,7 +11,7 @@ $ java -jar jbehave-to-gherkin.jar < example.story > example.feature
 $ cat example.story
 ```
 
-```
+```jbehave
 Gherkin feature description
 
 Meta:
@@ -54,7 +54,7 @@ Examples:
 $ cat example.feature
 ```
 
-```
+```gherkin
 @meta
 Feature: Gherkin feature description
   In order to use Cucumber
