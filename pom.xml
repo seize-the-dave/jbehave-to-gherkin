@@ -48,6 +48,35 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>uk.co.adaptivelogic.jbehavetogherkin.Converter</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    
+    <scm>
+        <connection>scm:git:git@github.com:adaptive-logic/jbehave-to-gherkin.git</connection>
+        <url>scm:git:git@github.com:adaptive-logic/jbehave-to-gherkin.git</url>
+        <developerConnection>scm:git:git@github.com:adaptive-logic/jbehave-to-gherkin.git</developerConnection>
+    </scm>
 </project>

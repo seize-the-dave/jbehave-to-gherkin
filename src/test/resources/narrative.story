@@ -9,7 +9,6 @@ As a business analyst
 I want to convert my JBehave to Gherkin
 
 Lifecycle:
-
 Before:
 Given I am a before step
 
