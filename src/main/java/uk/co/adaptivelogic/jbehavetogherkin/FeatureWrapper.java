@@ -1,10 +1,7 @@
 package uk.co.adaptivelogic.jbehavetogherkin;
 
 import gherkin.formatter.Formatter;
-import gherkin.formatter.model.Comment;
-import gherkin.formatter.model.Feature;
-import gherkin.formatter.model.Scenario;
-import gherkin.formatter.model.Step;
+import gherkin.formatter.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +13,7 @@ public class FeatureWrapper {
             // Do nothing
         }
     };
+    private BackgroundWrapper backgroundWrapper = new BackgroundWrapper();
 
     public void setScenarios(List<ScenarioWrapper> scenarios) {
         this.scenarios = scenarios;
@@ -25,8 +23,13 @@ public class FeatureWrapper {
         this.feature = feature;
     }
 
+    public void setBackground(BackgroundWrapper backgroundWrapper) {
+        this.backgroundWrapper = backgroundWrapper;
+    }
+
     public void replay(Formatter formatter) {
         feature.replay(formatter);
+        backgroundWrapper.replay(formatter);
         for (ScenarioWrapper scenario : scenarios) {
             scenario.replay(formatter);
         }

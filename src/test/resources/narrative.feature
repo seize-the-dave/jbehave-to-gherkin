@@ -3,6 +3,9 @@ Feature: Gherkin feature description
   As a business analyst
   I want to convert my JBehave to Gherkin
 
+  Background: 
+    Given I am a before step
+
   Scenario: Gherkin scenario description
     Given I have some JBehave stories
     When I execute jbehave-to-gherkin

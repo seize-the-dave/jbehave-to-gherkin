@@ -88,10 +88,19 @@ public class Translator {
             Feature feature = new Feature(noComments(), noTags(), "Feature", story.getDescription().asString(), description.toString(), 1, "");
             featureWrapper.setFeature(feature);
         }
-
+        if (!story.getLifecycle().isEmpty() && !story.getLifecycle().getBeforeSteps().isEmpty()) {
+            BackgroundWrapper backgroundWrapper = new BackgroundWrapper();
+            backgroundWrapper.setBackground(translateBeforeSteps(story.getLifecycle().getBeforeSteps()));
+            backgroundWrapper.setSteps(translateSteps(story.getLifecycle().getBeforeSteps()));
+            featureWrapper.setBackground(backgroundWrapper);
+        }
         featureWrapper.setScenarios(translateScenarios(story.getScenarios()));
 
         return featureWrapper;
+    }
+
+    private Background translateBeforeSteps(List<String> beforeSteps) {
+        return new Background(noComments(), "Background", "", "", 0);
     }
 
     public Step translate(String step) {
