@@ -4,11 +4,15 @@ Converts JBehave grammar to [Gherkin]((https://github.com/cucumber/cucumber/wiki
 
 ## Usage
 
+JBehave to Gherkin is a Java application which reads a JBehave story from stdin, and writes a Gherkin feature to stdout, which means it works will with redirects and pipes.
+
 ```shell
 $ java -jar jbehave-to-gherkin.jar < example.story > example.feature
 ```
 
 ## Example Conversion
+
+JBehave to Gherkin supports most JBehave syntax where a comparable expression exists in Gherkin.
 
 ### Input
 
