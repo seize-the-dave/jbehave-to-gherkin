@@ -12,7 +12,7 @@ $ java -jar jbehave-to-gherkin.jar < example.story > example.feature
 
 ## Example Conversion
 
-JBehave to Gherkin supports most JBehave syntax where a comparable expression exists in Gherkin.
+The following example shows the expected output for a sample story. 
 
 ### Input
 
@@ -28,7 +28,6 @@ As a business analyst
 I want to convert my JBehave to Gherkin
 
 Lifecycle:
-
 Before:
 Given I am a before step
 
@@ -88,3 +87,9 @@ Feature: Gherkin feature description
       | precondition | postcondition |
       | foo          | bar           |
 ```
+
+## Limitations
+
+There is no support for After steps or GivenStories from JBehave, as there is no corresponding keyword in Gherkin.  Furthermore, Meta values are concatenated and converted to lowercase, so that "@name Foo Bar" in JBehave becomes "@name-foo-bar" in Gherkin.
+
+There is also no support for DocStrings in Gherkin, as there is no corresponding structure in JBehave.
