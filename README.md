@@ -10,6 +10,10 @@ JBehave to Gherkin is a Java application which reads a JBehave story from stdin,
 $ java -jar jbehave-to-gherkin.jar < example.story > example.feature
 ```
 
+## Download
+
+[Download v1.0.0](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.0-jar-with-dependencies.jar)
+
 ## Example Conversion
 
 The following example shows the expected output for a sample story. 
