@@ -92,4 +92,4 @@ Feature: Gherkin feature description
 
 There is no support for After steps or GivenStories from JBehave, as there is no corresponding keyword in Gherkin.  Furthermore, Meta values are concatenated and converted to lowercase, so that "@name Foo Bar" in JBehave becomes "@name-foo-bar" in Gherkin.
 
-There is also no support for DocStrings in Gherkin, as there is no corresponding structure in JBehave.
+There is also no support for the But step definition or DocStrings in Gherkin, as there is no corresponding structure in the JBehave grammar.
