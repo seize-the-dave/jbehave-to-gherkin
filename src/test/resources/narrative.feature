@@ -1,3 +1,4 @@
+@meta
 Feature: Gherkin feature description
   In order to use Cucumber
   As a business analyst
@@ -6,6 +7,7 @@ Feature: Gherkin feature description
   Background: 
     Given I am a before step
 
+  @scenario-meta
   Scenario: Gherkin scenario description
     Given I have some JBehave stories
 
@@ -16,6 +18,7 @@ Feature: Gherkin feature description
     When I execute jbehave-to-gherkin
     Then I should have Gherkin features
 
+  @author-joe-bloggs
   Scenario Outline: Second scenario
     Given a [precondition] has occurred
     When an action is performed

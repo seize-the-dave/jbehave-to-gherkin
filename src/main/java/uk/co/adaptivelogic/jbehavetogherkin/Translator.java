@@ -1,7 +1,7 @@
 package uk.co.adaptivelogic.jbehavetogherkin;
 
 import gherkin.formatter.model.*;
-import org.apache.commons.lang.StringUtils;
+import static org.apache.commons.lang.StringUtils.*;
 import org.jbehave.core.configuration.Keywords;
 import org.jbehave.core.model.*;
 import org.jbehave.core.model.Scenario;
@@ -24,9 +24,9 @@ public class Translator {
     private ScenarioWrapper translate(Scenario scenario) {
         ScenarioWrapper scenarioWrapper = new ScenarioWrapper();
         if (scenario.getExamplesTable().getHeaders().isEmpty()) {
-            scenarioWrapper.setScenario(new gherkin.formatter.model.Scenario(noComments(), noTags(), "Scenario", scenario.getTitle(), "", 2, null));
+            scenarioWrapper.setScenario(new gherkin.formatter.model.Scenario(noComments(), translate(scenario.getMeta()), "Scenario", scenario.getTitle(), "", 2, null));
         } else {
-            scenarioWrapper.setScenarioOutline(new ScenarioOutline(noComments(), noTags(), "Scenario Outline", scenario.getTitle(), "", 2, null));
+            scenarioWrapper.setScenarioOutline(new ScenarioOutline(noComments(), translate(scenario.getMeta()), "Scenario Outline", scenario.getTitle(), "", 2, null));
             scenarioWrapper.setExamples(translate(scenario.getExamplesTable()));
         }
         scenarioWrapper.setSteps(translateSteps(scenario.getSteps()));
@@ -85,7 +85,7 @@ public class Translator {
                 description.append("So that ");
                 description.append(story.getNarrative().soThat());
             }
-            Feature feature = new Feature(noComments(), noTags(), "Feature", story.getDescription().asString(), description.toString(), 1, "");
+            Feature feature = new Feature(noComments(), translate(story.getMeta()), "Feature", story.getDescription().asString(), description.toString(), 1, "");
             featureWrapper.setFeature(feature);
         }
         
@@ -93,6 +93,18 @@ public class Translator {
         featureWrapper.setScenarios(translateScenarios(story.getScenarios()));
 
         return featureWrapper;
+    }
+
+    private List<Tag> translate(Meta meta) {
+        List<Tag> tags = new ArrayList<Tag>();
+        if (meta.isEmpty()) {
+            tags = noTags();
+        } else {
+            for (String name : meta.getPropertyNames()) {
+                tags.add(new Tag(lowerCase("@" + join(split(name + " " + meta.getProperty(name), " "), "-")), 1));
+            }
+        }
+        return tags;
     }
 
     private BackgroundWrapper translate(Lifecycle lifecycle) {
@@ -106,7 +118,7 @@ public class Translator {
     }
 
     public Step translate(String step) {
-        String[] stepParts = StringUtils.split(step, " ", 2);
+        String[] stepParts = split(step, " ", 2);
         String keyword = stepParts[0];
         String stepName = stepParts[1];
         ExamplesTableFactory tableFactory = new ExamplesTableFactory();
@@ -114,7 +126,7 @@ public class Translator {
         
         List<DataTableRow> tableData;        
         if (stepName.contains(keywords.examplesTableHeaderSeparator())) {
-            String[] parts = StringUtils.split(stepName, keywords.examplesTableHeaderSeparator(), 2);
+            String[] parts = split(stepName, keywords.examplesTableHeaderSeparator(), 2);
             stepName = parts[0];
             ExamplesTable examplesTable = tableFactory.createExamplesTable(parts[1]);
             tableData = translateDataTable(examplesTable);
