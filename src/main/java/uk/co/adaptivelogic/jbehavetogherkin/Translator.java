@@ -2,9 +2,9 @@ package uk.co.adaptivelogic.jbehavetogherkin;
 
 import gherkin.formatter.model.*;
 import org.apache.commons.lang.StringUtils;
-import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.configuration.Keywords;
+import org.jbehave.core.model.*;
 import org.jbehave.core.model.Scenario;
-import org.jbehave.core.model.Story;
 
 import static java.util.Collections.emptyList;
 
@@ -88,24 +88,53 @@ public class Translator {
             Feature feature = new Feature(noComments(), noTags(), "Feature", story.getDescription().asString(), description.toString(), 1, "");
             featureWrapper.setFeature(feature);
         }
-        if (!story.getLifecycle().isEmpty() && !story.getLifecycle().getBeforeSteps().isEmpty()) {
-            BackgroundWrapper backgroundWrapper = new BackgroundWrapper();
-            backgroundWrapper.setBackground(translateBeforeSteps(story.getLifecycle().getBeforeSteps()));
-            backgroundWrapper.setSteps(translateSteps(story.getLifecycle().getBeforeSteps()));
-            featureWrapper.setBackground(backgroundWrapper);
-        }
+        
+        featureWrapper.setBackground(translate(story.getLifecycle()));
         featureWrapper.setScenarios(translateScenarios(story.getScenarios()));
 
         return featureWrapper;
     }
 
-    private Background translateBeforeSteps(List<String> beforeSteps) {
-        return new Background(noComments(), "Background", "", "", 0);
+    private BackgroundWrapper translate(Lifecycle lifecycle) {
+        BackgroundWrapper backgroundWrapper = new BackgroundWrapper();
+        if (!lifecycle.isEmpty() && !lifecycle.getBeforeSteps().isEmpty()) {
+            List<String> beforeSteps = lifecycle.getBeforeSteps();
+            backgroundWrapper.setBackground(new Background(noComments(), "Background", "", "", 0));
+            backgroundWrapper.setSteps(translateSteps(beforeSteps));
+        }
+        return backgroundWrapper;
     }
 
     public Step translate(String step) {
         String[] stepParts = StringUtils.split(step, " ", 2);
-        return new Step(noComments(), stepParts[0], " " + stepParts[1], 1, noTableData(), null);
+        String keyword = stepParts[0];
+        String stepName = stepParts[1];
+        ExamplesTableFactory tableFactory = new ExamplesTableFactory();
+        Keywords keywords = new Keywords();
+        
+        List<DataTableRow> tableData;        
+        if (stepName.contains(keywords.examplesTableHeaderSeparator())) {
+            String[] parts = StringUtils.split(stepName, keywords.examplesTableHeaderSeparator(), 2);
+            stepName = parts[0];
+            ExamplesTable examplesTable = tableFactory.createExamplesTable(parts[1]);
+            tableData = translateDataTable(examplesTable);
+        } else {
+            tableData = noTableData();
+        }
+        return new Step(noComments(), keyword, " " + stepName, 1, tableData, null);
+    }
+
+    private List<DataTableRow> translateDataTable(ExamplesTable examplesTable) {
+        List<DataTableRow> dataTable = new ArrayList<DataTableRow>();
+        dataTable.add(new DataTableRow(noComments(), examplesTable.getHeaders(), 0, Row.DiffType.NONE));
+        for (Map<String, String> row : examplesTable.getRows()) {
+            List<String> jBehaveRow = new ArrayList<String>();
+            for (String header : examplesTable.getHeaders()) {
+                jBehaveRow.add(row.get(header));
+            }
+            dataTable.add(new DataTableRow(noComments(), jBehaveRow, 0, Row.DiffType.NONE));
+        }
+        return dataTable;
     }
 
     private List<DataTableRow> noTableData() {

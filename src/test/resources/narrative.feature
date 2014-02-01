@@ -8,6 +8,11 @@ Feature: Gherkin feature description
 
   Scenario: Gherkin scenario description
     Given I have some JBehave stories
+
+      | name  | rank     |
+      | Larry | Stooge 3 |
+      | Moe   | Stooge 1 |
+      | Curly | Stooge 2 |
     When I execute jbehave-to-gherkin
     Then I should have Gherkin features
 
