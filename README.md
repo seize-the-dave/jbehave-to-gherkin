@@ -2,6 +2,10 @@
 
 Converts JBehave grammar to [Gherkin]((https://github.com/cucumber/cucumber/wiki/Gherkin)) for use by [Cucumber](https://github.com/cucumber/cucumber), [SpecFlow](https://github.com/techtalk/SpecFlow) or [Behat](https://github.com/Behat/Behat).
 
+## Download
+
+Download a [the release JAR with all dependencies](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.0-jar-with-dependencies.jar) or [the standalone release JAR](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.0.jar).
+
 ## Usage
 
 JBehave to Gherkin is a Java application which reads a JBehave story from stdin, and writes a Gherkin feature to stdout, which means it works well with redirects and pipes.
