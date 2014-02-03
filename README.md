@@ -4,7 +4,7 @@ Converts JBehave grammar to [Gherkin]((https://github.com/cucumber/cucumber/wiki
 
 ## Download
 
-Download a [the release JAR with all dependencies](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.0-jar-with-dependencies.jar) or [the standalone release JAR](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.0.jar).
+Download a [the release JAR with all dependencies](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.1-jar-with-dependencies.jar) or [the standalone release JAR](https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.1/jbehave-to-gherkin-1.0.0.jar).
 
 ## Usage
 
