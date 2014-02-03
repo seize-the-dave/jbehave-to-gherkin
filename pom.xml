@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.co.adapativelogic</groupId>
     <artifactId>jbehave-to-gherkin</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -99,5 +99,6 @@
         <connection>scm:git:git@github.com:adaptive-logic/jbehave-to-gherkin.git</connection>
         <url>scm:git:git@github.com:adaptive-logic/jbehave-to-gherkin.git</url>
         <developerConnection>scm:git:git@github.com:adaptive-logic/jbehave-to-gherkin.git</developerConnection>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 </project>
