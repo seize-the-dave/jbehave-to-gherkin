@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>JBehave to Gherkin by adaptive-logic</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/adaptive-logic/jbehave-to-gherkin">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/adaptive-logic/jbehave-to-gherkin/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/adaptive-logic/jbehave-to-gherkin/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>JBehave to Gherkin</h1>
+          <p>Convert JBehave stories to Gherkin features</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/adaptive-logic">adaptive-logic</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="jbehave-to-gherkin-" class="anchor" href="#jbehave-to-gherkin-"><span class="octicon octicon-link"></span></a>JBehave to Gherkin <a href="https://travis-ci.org/adaptive-logic/jbehave-to-gherkin"><img src="https://travis-ci.org/adaptive-logic/jbehave-to-gherkin.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>Converts JBehave grammar to <a>Gherkin</a> for use by <a href="https://github.com/cucumber/cucumber">Cucumber</a>, <a href="https://github.com/techtalk/SpecFlow">SpecFlow</a> or <a href="https://github.com/Behat/Behat">Behat</a>.</p>
+
+<h2>
+<a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h2>
+
+<p>Download a <a href="https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.0/jbehave-to-gherkin-1.0.1-jar-with-dependencies.jar">the release JAR with all dependencies</a> or <a href="https://github.com/adaptive-logic/jbehave-to-gherkin/releases/download/jbehave-to-gherkin-1.0.1/jbehave-to-gherkin-1.0.0.jar">the standalone release JAR</a>.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>JBehave to Gherkin is a Java application which reads a JBehave story from stdin, and writes a Gherkin feature to stdout, which means it works well with redirects and pipes.</p>
+
+<pre lang="shell"><code>$ java -jar jbehave-to-gherkin.jar &lt; example.story &gt; example.feature
+</code></pre>
+
+<h2>
+<a name="example-conversion" class="anchor" href="#example-conversion"><span class="octicon octicon-link"></span></a>Example Conversion</h2>
+
+<p>The following example shows the expected output for a sample story. </p>
+
+<h3>
+<a name="input" class="anchor" href="#input"><span class="octicon octicon-link"></span></a>Input</h3>
+
+<pre lang="jbehave"><code>Gherkin feature description
+
+Meta:
+@meta
+
+Narrative:
+In order to use Cucumber
+As a business analyst
+I want to convert my JBehave to Gherkin
+
+Lifecycle:
+Before:
+Given I am a before step
+
+Scenario: Gherkin scenario description
+Meta:
+@scenario-meta
+Given I have some JBehave stories
+|name|rank|
+|Larry|Stooge 3|
+|Moe|Stooge 1|
+|Curly|Stooge 2|
+When I execute jbehave-to-gherkin
+Then I should have Gherkin features
+
+Scenario: Second scenario
+Meta:
+@author Joe Bloggs
+Given a [precondition] has occurred
+When an action is performed
+Then a [postcondition] should occur
+
+Examples:
+|precondition|postcondition|
+|foo|bar|
+</code></pre>
+
+<h3>
+<a name="output" class="anchor" href="#output"><span class="octicon octicon-link"></span></a>Output</h3>
+
+<div class="highlight highlight-gherkin"><pre><span class="nt">@meta</span><span class="nf"></span>
+<span class="k">Feature:</span><span class="nf"> Gherkin feature description</span>
+<span class="nf">  In order to use Cucumber</span>
+<span class="nf">  As a business analyst</span>
+<span class="nf">  I want to convert my JBehave to Gherkin</span>
+
+<span class="nf">  </span><span class="k">Background:</span><span class="nf"> </span>
+<span class="k">    Given </span><span class="nf">I am a before step</span>
+
+<span class="nf">  </span><span class="nt">@scenario-meta</span><span class="nf"></span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Gherkin scenario description</span>
+<span class="k">    Given </span><span class="nf">I have some JBehave stories</span>
+
+<span class="k">      |</span><span class="s"> name</span><span class="k">  |</span><span class="s"> rank</span><span class="k">     |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> Larry</span><span class="k"> |</span><span class="s"> Stooge 3</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> Moe</span><span class="k">   |</span><span class="s"> Stooge 1</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> Curly</span><span class="k"> |</span><span class="s"> Stooge 2</span><span class="k"> |</span><span class="nf"></span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I execute jbehave-to-gherkin</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should have Gherkin features</span>
+
+<span class="nf">  </span><span class="nt">@author-joe-bloggs</span><span class="nf"></span>
+<span class="nf">  </span><span class="k">Scenario Outline:</span><span class="nf"> Second scenario</span>
+<span class="k">    Given </span><span class="nf">a [precondition] has occurred</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">an action is performed</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">a [postcondition] should occur</span>
+
+<span class="nf">    </span><span class="k">Examples:</span><span class="nf"> </span><span class="k"></span>
+<span class="k">      |</span><span class="nv"> precondition</span><span class="k"> |</span><span class="nv"> postcondition</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> foo</span><span class="k">          |</span><span class="s"> bar</span><span class="k">           |</span>
+</pre></div>
+
+<h2>
+<a name="limitations" class="anchor" href="#limitations"><span class="octicon octicon-link"></span></a>Limitations</h2>
+
+<p>There is no support for After steps or GivenStories from JBehave, as there is no corresponding keyword in Gherkin.  Furthermore, Meta values are concatenated and converted to lowercase, so that "<a href="https://github.com/name" class="user-mention">@name</a> Foo Bar" in JBehave becomes "@name-foo-bar" in Gherkin.</p>
+
+<p>There is also no support for the But step definition or DocStrings in Gherkin, as there is no corresponding structure in the JBehave grammar.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
