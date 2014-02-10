@@ -1,4 +1,4 @@
-# JBehave to Gherkin [![Build Status](https://travis-ci.org/adaptive-logic/jbehave-to-gherkin.png?branch=master)](https://travis-ci.org/adaptive-logic/jbehave-to-gherkin)
+# JBehave to Gherkin [![Build Status](https://drone.io/github.com/adaptive-logic/jbehave-to-gherkin/status.png)](https://drone.io/github.com/adaptive-logic/jbehave-to-gherkin/latest)
 
 Converts JBehave grammar to [Gherkin]((https://github.com/cucumber/cucumber/wiki/Gherkin)) for use by [Cucumber](https://github.com/cucumber/cucumber), [SpecFlow](https://github.com/techtalk/SpecFlow), [Behat](https://github.com/Behat/Behat) or [behave](http://pythonhosted.org/behave/).
 
